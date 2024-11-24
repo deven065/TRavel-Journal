@@ -43,7 +43,7 @@ export default  [
         },
         title: "Canada",
         country: "Canada",
-        googleMapsLink: "https://maps.app.goo.gl/5j97k8bU3q272b8f8",
+        googleMapsLink: "https://maps.app.goo.gl/RXgbLTyDMQt7VEa58",
         dates: "15 Feb, 2021 - 29 Feb, 2021",
         text: "Canada is a country with a rich history and a unique culture. It's the fourth-largest country in Europe, with a population of over 37.4 million people."
     }
