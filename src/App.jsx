@@ -17,8 +17,15 @@ function App() {
   useEffect(() => {
     const checkFirebaseConfig = async () => {
       try {
-        // Try to fetch from Firebase
-        const firebaseEntries = await getEntries()
+        // Set a timeout to prevent infinite loading
+        const timeoutPromise = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Firebase timeout')), 3000)
+        )
+        
+        const firebasePromise = getEntries()
+        
+        const firebaseEntries = await Promise.race([firebasePromise, timeoutPromise])
+        
         if (firebaseEntries.length > 0 || localStorage.getItem('firebaseConfigured') === 'true') {
           setUseFirebase(true)
           setEntries(firebaseEntries.length > 0 ? firebaseEntries : initialData)
@@ -28,7 +35,7 @@ function App() {
           setEntries(saved ? JSON.parse(saved) : initialData)
         }
       } catch (error) {
-        console.log('Firebase not configured, using localStorage')
+        console.log('Firebase not configured or timeout, using localStorage')
         const saved = localStorage.getItem('travelEntries')
         setEntries(saved ? JSON.parse(saved) : initialData)
       } finally {
