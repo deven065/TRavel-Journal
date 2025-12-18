@@ -28,7 +28,9 @@ function EntryForm({ onSubmit, entryData = null, existingEntries = [] }) {
             ...prev,
             [type]: media
         }))
-    }async (e) => {
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault()
         
         if (!formData.title || !formData.country || formData.photos.length === 0) {
@@ -93,9 +95,7 @@ function EntryForm({ onSubmit, entryData = null, existingEntries = [] }) {
             console.error('Error submitting entry:', error)
             alert('Error uploading files. Please check your Firebase configuration and try again.')
         } finally {
-            setIsUploading(false   photos: [],
-                videos: []
-            })
+            setIsUploading(false)
         }
     }
 
@@ -151,11 +151,8 @@ function EntryForm({ onSubmit, entryData = null, existingEntries = [] }) {
                         placeholder="https://maps.app.goo.gl/..."
                     />
                 </div>
- disabled={isUploading}>
-                {isUploading 
-                    ? '⏳ Uploading to Cloud...' 
-                    : (entryData ? '💾 Update Entry' : '✨ Create Entry')
-                
+
+                <div className="form-group">
                     <label>Description *</label>
                     <textarea
                         name="text"
@@ -185,8 +182,11 @@ function EntryForm({ onSubmit, entryData = null, existingEntries = [] }) {
                 />
             </div>
 
-            <button type="submit" className="submit-btn">
-                {entryData ? '💾 Update Entry' : '✨ Create Entry'}
+            <button type="submit" className="submit-btn" disabled={isUploading}>
+                {isUploading 
+                    ? '⏳ Uploading to Cloud...' 
+                    : (entryData ? '💾 Update Entry' : '✨ Create Entry')
+                }
             </button>
         </form>
     )
